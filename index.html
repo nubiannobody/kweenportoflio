@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --text-accent: #f093fb;
+            --glow: rgba(240, 147, 251, 0.3);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #0f0f23, #1a1a3a, #0f0f23);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .floating-element {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+        
+        .floating-element:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 60%; left: 80%; animation-delay: -5s; }
+        .floating-element:nth-child(3) { top: 80%; left: 30%; animation-delay: -10s; }
+        .floating-element:nth-child(4) { top: 40%; left: 70%; animation-delay: -15s; }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-100px) rotate(180deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            padding: 40px 0 20px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px var(--glow);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.2); }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        
+        .section {
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 50px;
+            text-align: center;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+        }
+        
+        .competencies-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+     
+        .competency-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .competency-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .competency-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            border-color: rgba(240, 147, 251, 0.3);
+        }
+        
+        .competency-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .competency-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-accent);
+        }
+        
+        .competency-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            padding-bottom: 10px;
+        }
+        
+        .experience-timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-gradient);
+        }
+        
+        .experience-item {
+            position: relative;
+            margin-bottom: 60px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-left: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -45px;
+            top: 30px;
+            width: 15px;
+            height: 15px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--glow);
+        }
+        
+        .experience-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2);
+        }
+        
+        .company-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-accent);
+            margin-bottom: 5px;
+        }
+        
+        .role-title {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .achievement {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .achievement::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--text-accent);
+            font-weight: bold;
+        }
+        
+        .contact-section {
+            text-align: center;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 60px 40px;
+            margin: 80px 0;
+        }
+        
+        .contact-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .contact-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        
+        .cta-button {
+            display: block;
+            width: max-content;
+            margin: 0 auto;
+            padding: 15px 40px;
+            background: var(--accent-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(240, 147, 251, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .competencies-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .experience-timeline {
+                padding-left: 30px;
+            }
+            
+            .experience-item {
+                margin-left: 20px;
+            }
+            
+            .contact-section {
+                padding: 40px 20px;
+            }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 class="hero-title fade-in">Kween Karrielene's Professional Portfolio</h1>
+            <p class="hero-subtitle fade-in">Strategic Leader | Technical Innovator | Business Catalyst</p>
+        </header>
+
+        <section class="section fade-in">
+            <h2 class="section-title">Core Competencies</h2>
+            <div class="competencies-grid">
+                <div class="competency-card">
+                    <h3 class="competency-title">Leadership & Strategy</h3>
+                    <p class="competency-content">Cross-functional team management, stakeholder relations, executive presentations, acquisition management, change leadership</p>
+                </div>
+                <div class="competency-card">
+                    <h3 class="competency-title">Product & Program Management</h3>
+                    <p class="competency-content">Enterprise account management, training program development, process optimization, project lifecycle management</p>
+                </div>
+                <div class="competency-card">
+                    <h3 class="competency-title">Technical Excellence</h3>
+                    <p class="competency-content">Full-stack web development, disaster recovery planning, system engineering, software development, SaaS implementation</p>
+                    <a href="https://mahoganyandmango.com/all-websites" class="cta-button" target="_blank" rel="noopener noreferrer">Peek at Projects</a>
+                </div>
+                <div class="competency-card">
+                    <h3 class="competency-title">Business Development</h3>
+                    <p class="competency-content">Client relationship management, proposal development, business process improvement, retention strategy development</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section fade-in">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="experience-timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="experience-item">
+                    <h3 class="company-name">Foreign Freedom - Life Coaching | Motivational Speaking</h3>
+                    <h4 class="role-title">Founder & CEO</h4>
+                    <div class="achievement">Empowering individuals to embrace authenticity and build lives they truly desire</div>
+                    <div class="achievement">Developing comprehensive programs using existing skills for personal transformation</div>
+                    <div class="achievement">Entrepreneurial vision focused on authentic living and personal growth</div>
+                    <a href="https://www.foreignfreedom.com" class="cta-button" target="_blank" rel="noopener noreferrer">Book Now</a>
+                </div>
+
+                <div class="experience-item">
+                    <h3 class="company-name">Mahogany and Mango | Website Development</h3>
+                    <h4 class="role-title">CEO & Full-Stack Developer</h4>
+                    <div class="achievement">End-to-end website development for diverse client portfolio</div>
+                    <div class="achievement">Specialized in photography portfolios and e-commerce platforms</div>
+                    <div class="achievement">Ensuring responsiveness, SEO optimization, and perfect brand alignment</div>
+                    <a href="https://mahoganyandmango.com/all-websites" class="cta-button" target="_blank" rel="noopener noreferrer">Book Now</a>
+                </div>
+
+                <div class="experience-item">
+                    <h3 class="company-name">Weyerhaeuser</h3>
+                    <h4 class="role-title">Sr. Disaster Recovery Analyst</h4>
+                    <div class="achievement">Trained new employees on Disaster Recovery, ensuring readiness and compliance</div>
+                    <div class="achievement">Led DR 2.0 initiative, enhancing disaster recovery strategies and execution</div>
+                    <div class="achievement">Streamlined IT processes by supporting the ITSM replacement project</div>
+                </div>
+
+                <div class="experience-item">
+                    <h3 class="company-name">Impinj</h3>
+                    <h4 class="role-title">Sr. Technical Program Manager</h4>
+                    <div class="achievement">Led cross-functional teams across major corporate initiatives</div>
+                    <div class="achievement">Spearheaded major acquisition onboarding 75 new hires</div>
+                    <div class="achievement">Managed high-visibility projects for executive leadership with 100% on-time delivery</div>
+                </div>
+
+                <div class="experience-item">
+                    <h3 class="company-name">Charter Communications</h3>
+                    <h4 class="role-title">Senior Business Analyst</h4>
+                    <div class="achievement">Reduced customer churn by 50% through innovative retention strategies</div>
+                    <div class="achievement">Impacted 30M+ customers through strategic business process improvements</div>
+                    <div class="achievement">Developed and implemented scalable retention programs</div>
+                </div>
+
+                <div class="experience-item">
+                    <h3 class="company-name">Amazon Web Services (AWS)</h3>
+                    <h4 class="role-title">Enterprise Account Manager</h4>
+                    <div class="achievement">Managed enterprise accounts across North America, EMEA, and LATAM</div>
+                    <div class="achievement">Developed training programs that onboarded thousands of accounts</div>
+                    <div class="achievement">Scaled operations while maintaining quality across global markets</div>
+                    <div class="achievement">Streamlined cross-team initiatives and optimized workflows</div>
+                </div>
+
+                <div class="experience-item">
+                    <h3 class="company-name">NASA</h3>
+                    <h4 class="role-title">Systems Engineer</h4>
+                    <div class="achievement">Reduced technical debt by 85% through innovative system solutions</div>
+                    <div class="achievement">Designed and implemented complex disaster recovery systems</div>
+                    <div class="achievement">Translated technical challenges into actionable business solutions</div>
+                </div>
+
+                <div class="experience-item">
+                    <h3 class="company-name">Verizon</h3>
+                    <h4 class="role-title">Senior Software Developer</h4>
+                    <div class="achievement">Designed complex system solutions cutting quarterly business losses by 75%</div>
+                    <div class="achievement">Full-stack development with focus on enterprise-scale applications</div>
+                    <div class="achievement">System engineering and software architecture optimization</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section fade-in">
+            <h2 class="section-title">Services Spotlight</h2>
+            <div class="competencies-grid">
+                <div class="competency-card">
+                    <h3 class="competency-title">Coaching & Speaking</h3>
+                    <p class="competency-content">Life Coaching & Personal Development - $150/hr</p>
+                    <p class="competency-content">Motivational Speaking & Workshops — $500–$2,000/event</p>
+                    <p class="competency-content">Leadership & Strategy Guidance — $200/hr</p>
+                </div>
+                <div class="competency-card">
+                    <h3 class="competency-title">Business & Management</h3>
+                    <p class="competency-content">Product & Program Management — $100/hr</p>
+                    <p class="competency-content">Client & Account Management — $90/hr</p>
+                    <p class="competency-content">Business Development & Process Optimization — $120/hr</p>
+                </div>
+                <div class="competency-card">
+                    <h3 class="competency-title">Technical & Digital</h3>
+                    <p class="competency-content">Web Development & Full-Stack Solutions — $85–$150/hr</p>
+                    <p class="competency-content">System Optimization & System Engineering — $120/hr</p>
+                    <p class="competency-content">Disaster Recovery Planning & Technical Strategy — $150/hr</p>
+                </div>
+                <div class="competency-card">
+                    <h3 class="competency-title">Community Engagement</h3>
+                    <p class="competency-content">Master of Ceremonies (MC) & Event Hosting — $300–$800/event</p>
+                    <p class="competency-content">Community Workshops & Speaking Engagements — $200/hr</p>
+                    <p class="competency-content">Panel Moderation & Public Engagement Facilitation — $150–$300/hr</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section fade-in">
+            <h2 class="contact-title">Let's Connect</h2>
+            <p class="contact-text">Ready to discuss how my strategic leadership and technical expertise can drive your next initiative?</p>
+            <a href="mailto:kweenyoallhiada@gmail.com" class="cta-button">Get In Touch</a>
+        </section>
+    </div>
+
+    <script>
+        // Intersection Observer for fade-in animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with fade-in class
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add smooth scrolling behavior
+        document.documentElement.style.scrollBehavior = 'smooth';
+
+        // Add parallax effect to floating elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const elements = document.querySelectorAll('.floating-element');
+            elements.forEach((el, index) => {
+                const rate = scrolled * -0.5 * (index + 1) * 0.1;
+                el.style.transform = `translateY(${rate}px) rotate(${scrolled * 0.1}deg)`;
+            });
+        });
+
+        // Add stagger animation to competency cards
+        const cards = document.querySelectorAll('.competency-card');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // Add stagger animation to experience items
+        const expItems = document.querySelectorAll('.experience-item');
+        expItems.forEach((item, index) => {
+            item.style.animationDelay = `${index * 0.2}s`;
+        });
+    </script>
+</body>
+</html>
